@@ -1,0 +1,60 @@
+{
+  "name": "simp-mate",
+  "version": "1.0.0",
+  "author": "SIMP Team",
+  "summary": "Provides useful settings to set up the MATE desktop environment",
+  "license": "Apache-2.0",
+  "source": "https://github.com/simp/pupmod-simp-mate",
+  "project_page": "https://github.com/simp/pupmod-simp-mate",
+  "issues_url": "https://simp-project.atlassian.net",
+  "tags": [
+    "simp",
+    "mate",
+    "desktop"
+  ],
+  "dependencies": [
+    {
+      "name": "simp/dconf",
+      "version_requirement": ">= 0.0.1 < 2.0.0"
+    },
+    {
+      "name": "simp/polkit",
+      "version_requirement": ">= 6.1.0 < 7.0.0"
+    },
+    {
+      "name": "simp/simplib",
+      "version_requirement": ">= 3.10.0 < 4.0.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.9.0 < 5.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 6.0.0"
+    }
+  ],
+  "data_provider": "hiera"
+}
