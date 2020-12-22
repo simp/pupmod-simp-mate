@@ -1,3 +1,6 @@
+* Fri Dec 18 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 1.1.2
+- Maintenance update for module assets
+
 * Thu Jul 23 2020 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 1.1.1
 - update the upper bound of simplib for SIMP 6.5 release
 
