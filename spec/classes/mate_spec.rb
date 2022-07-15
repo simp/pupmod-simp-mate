@@ -23,7 +23,7 @@ describe 'mate' do
         it { is_expected.to create_class('mate') }
 
         packages.each do |pkg|
-          it { is_expected.to contain_package(pkg).with_ensure('present') }
+          it { is_expected.to contain_package(pkg).with_ensure('installed') }
         end
 
         it { is_expected.to create_dconf__settings('MATE dconf settings: simp_mate').with({
