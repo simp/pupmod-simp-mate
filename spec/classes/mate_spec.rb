@@ -10,7 +10,7 @@ packages = [
   'mate-power-manager',
   'mate-session-manager',
   'mate-settings-daemon',
-  'mate-themes'
+  'mate-themes',
 ]
 
 describe 'mate' do
@@ -26,10 +26,11 @@ describe 'mate' do
           it { is_expected.to contain_package(pkg).with_ensure('installed') }
         end
 
-        it { is_expected.to create_dconf__settings('MATE dconf settings: simp_mate').with({
-          :ensure        => 'present',
-          :profile       => 'simp_mate',
-          :settings_hash => {
+        it {
+          is_expected.to create_dconf__settings('MATE dconf settings: simp_mate').with({
+                                                                                         ensure: 'present',
+          profile: 'simp_mate',
+          settings_hash: {
             'org/mate/media-handling' => {
               'automount'      => { 'value' => false },
               'automount-open' => { 'value' => false },
@@ -39,7 +40,7 @@ describe 'mate' do
               'logout' => { 'value' => "''" }
             },
             'org/mate/power-manager' => {
-              'button-power' => { 'value' => "'nothing'"}
+              'button-power' => { 'value' => "'nothing'" }
             },
             'org/mate/session' => {
               'idle-delay' => { 'value' => 'uint32 900' }
@@ -50,7 +51,8 @@ describe 'mate' do
               'lock-delay'              => { 'value' => 0 }
             }
           }
-        }) }
+                                                                                       })
+        }
       end
     end
   end
