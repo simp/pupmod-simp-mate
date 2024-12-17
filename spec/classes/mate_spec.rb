@@ -10,7 +10,7 @@ packages = [
   'mate-power-manager',
   'mate-session-manager',
   'mate-settings-daemon',
-  'mate-themes'
+  'mate-themes',
 ]
 
 describe 'mate' do
@@ -26,31 +26,34 @@ describe 'mate' do
           it { is_expected.to contain_package(pkg).with_ensure('installed') }
         end
 
-        it { is_expected.to create_dconf__settings('MATE dconf settings: simp_mate').with({
-          :ensure        => 'present',
-          :profile       => 'simp_mate',
-          :settings_hash => {
-            'org/mate/media-handling' => {
-              'automount'      => { 'value' => false },
-              'automount-open' => { 'value' => false },
-              'autorun-never'  => { 'value' => true }
-            },
-            'org/mate/SettingsDaemon/plugins/media-keys' => {
-              'logout' => { 'value' => "''" }
-            },
-            'org/mate/power-manager' => {
-              'button-power' => { 'value' => "'nothing'"}
-            },
-            'org/mate/session' => {
-              'idle-delay' => { 'value' => 'uint32 900' }
-            },
-            'org/mate/screensaver' => {
-              'idle-activation-enabled' => { 'value' => true },
-              'lock-enabled'            => { 'value' => true },
-              'lock-delay'              => { 'value' => 0 }
-            }
-          }
-        }) }
+        it do
+          is_expected.to create_dconf__settings('MATE dconf settings: simp_mate')
+            .with(
+              ensure: 'present',
+              profile: 'simp_mate',
+              settings_hash: {
+                'org/mate/media-handling' => {
+                  'automount'      => { 'value' => false },
+                  'automount-open' => { 'value' => false },
+                  'autorun-never'  => { 'value' => true },
+                },
+                'org/mate/SettingsDaemon/plugins/media-keys' => {
+                  'logout' => { 'value' => "''" },
+                },
+                'org/mate/power-manager' => {
+                  'button-power' => { 'value' => "'nothing'" },
+                },
+                'org/mate/session' => {
+                  'idle-delay' => { 'value' => 'uint32 900' },
+                },
+                'org/mate/screensaver' => {
+                  'idle-activation-enabled' => { 'value' => true },
+                  'lock-enabled'            => { 'value' => true },
+                  'lock-delay'              => { 'value' => 0 },
+                },
+              },
+            )
+        end
       end
     end
   end
