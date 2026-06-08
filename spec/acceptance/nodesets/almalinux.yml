@@ -12,4 +12,4 @@ CONFIG:
   log_level: verbose
   type: aio
   multi_node: false
-  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'puppet7') %>"
+  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'openvox8') %>"
