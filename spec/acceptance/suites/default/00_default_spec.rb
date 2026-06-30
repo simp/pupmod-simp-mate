@@ -12,6 +12,10 @@ describe 'MATE' do
   hosts.each do |host|
     context "on #{host}" do
       context 'default parameters' do
+        it 'enables EPEL (provides MATE packages)' do
+          enable_epel_on(host)
+        end
+
         it 'works with no errors' do
           apply_manifest_on(host, manifest, catch_failures: true)
         end
@@ -21,7 +25,9 @@ describe 'MATE' do
         end
 
         it 'has MATE installed' do
-          host.check_for_command('mate-session').should be true
+          # Check the binary directly rather than via `which`, which is not
+          # present in minimal containers.
+          on(host, 'test -x /usr/bin/mate-session')
         end
       end
     end
