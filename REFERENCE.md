@@ -38,6 +38,8 @@ Use the module to configure MATE
 
 @see data/common.yaml
 
+Default value: `true`
+
 ##### <a name="-mate--dconf_hash"></a>`dconf_hash`
 
 Data type: `Hash[String[1], Dconf::SettingsHash]`
@@ -47,6 +49,8 @@ Settings specific to dconf and MATE
 @see data/common.yaml
 @see https://wiki.gnome.org/Projects/dconf/SystemAdministrators
 
+Default value: `{ 'simp_mate' => { 'org/mate/media-handling' => { 'automount' => { 'value' => false }, 'automount-open' => { 'value' => false }, 'autorun-never' => { 'value' => true } }, 'org/mate/SettingsDaemon/plugins/media-keys' => { 'logout' => { 'value' => '''' } }, 'org/mate/power-manager' => { 'button-power' => { 'value' => ''nothing'' } }, 'org/mate/session' => { 'idle-delay' => { 'value' => 'uint32 900' } }, 'org/mate/screensaver' => { 'idle-activation-enabled' => { 'value' => true }, 'lock-enabled' => { 'value' => true }, 'lock-delay' => { 'value' => 0 } } } }`
+
 ##### <a name="-mate--dconf_profile_hierarchy"></a>`dconf_profile_hierarchy`
 
 Data type: `Dconf::DBSettings`
@@ -55,6 +59,8 @@ Dconf db priority
 
 @see https://help.gnome.org/admin/system-admin-guide/stable/dconf.html.en
 @see https://wiki.gnome.org/Projects/dconf/SystemAdministrators
+
+Default value: `{ 'simp_mate' => { 'type' => 'system', 'order' => 10 } }`
 
 ##### <a name="-mate--packages"></a>`packages`
 
@@ -70,6 +76,8 @@ A Hash of packages to be installed
   { 'gedit' => { 'ensure' => '3.14.3' } }
 
 @see data/common.yaml
+
+Default value: `{ 'caja-open-terminal' => undef, 'caja' => undef, 'gnome-terminal' => undef, 'marco' => undef, 'mate-desktop' => undef, 'mate-polkit' => undef, 'mate-power-manager' => undef, 'mate-screensaver' => undef, 'mate-session-manager' => undef, 'mate-settings-daemon' => undef, 'mate-themes' => undef }`
 
 ##### <a name="-mate--package_ensure"></a>`package_ensure`
 
