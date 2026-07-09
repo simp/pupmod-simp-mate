@@ -148,7 +148,7 @@ bundle install
 bundle exec rake spec
 
 # Run the single class spec
-bundle exec rspec spec/classes/init_spec.rb
+bundle exec rspec spec/classes/mate_spec.rb
 
 # Puppet lint
 bundle exec rake lint
