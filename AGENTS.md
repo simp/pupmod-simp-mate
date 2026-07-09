@@ -20,33 +20,33 @@ configuration lives in `data/common.yaml` as data, not in code.
 
 Two classes, both driven entirely by module data:
 
-- **`mate` (`manifests/init.pp:36-55`)** — Public entry class (consumers
+- **`mate` (`manifests/init.pp`)** — Public entry class (consumers
   `include 'mate'`). Its four data-bound parameters have **no manifest
   defaults** — they are supplied from `data/common.yaml` via the module's
   Hiera:
-  - `$configure` (`Boolean`, `init.pp:37`) — whether to apply configuration
+  - `$configure` (`Boolean`, `init.pp`) — whether to apply configuration
     (default `true` in data).
-  - `$dconf_hash` (`Hash[String[1], Dconf::SettingsHash]`, `init.pp:38`) — the
+  - `$dconf_hash` (`Hash[String[1], Dconf::SettingsHash]`, `init.pp`) — the
     dconf settings, keyed by profile name.
-  - `$dconf_profile_hierarchy` (`Dconf::DBSettings`, `init.pp:39`) — the dconf
+  - `$dconf_profile_hierarchy` (`Dconf::DBSettings`, `init.pp`) — the dconf
     DB priority (`simp_mate`, type `system`, order `10`).
-  - `$packages` (`Hash[String[1], Optional[Hash]]`, `init.pp:40`) — package
-    list; **setting this overrides the default list** (docstring `init.pp:23`).
-  - `$package_ensure` (`Simplib::PackageEnsure`, `init.pp:41`) — the seam;
+  - `$packages` (`Hash[String[1], Optional[Hash]]`, `init.pp`) — package
+    list; **setting this overrides the default list** (docstring `init.pp`).
+  - `$package_ensure` (`Simplib::PackageEnsure`, `init.pp`) — the seam;
     used as the `simplib::install` default `ensure`.
 
-  It calls `simplib::assert_metadata` (`init.pp:43`), installs the packages via
-  `simplib::install { 'mate' }` (`init.pp:45-48`), and — when `$configure` —
-  includes `mate::config` ordered after the install (`init.pp:50-54`).
+  It calls `simplib::assert_metadata` (`init.pp`), installs the packages via
+  `simplib::install { 'mate' }` (`init.pp`), and — when `$configure` —
+  includes `mate::config` ordered after the install (`init.pp`).
 
-- **`mate::config` (`manifests/config.pp:4-17`)** — **Private**
-  (`@api private` + `assert_private()` at `config.pp:5`). Declares one
+- **`mate::config` (`manifests/config.pp`)** — **Private**
+  (`@api private` + `assert_private()` at `config.pp`). Declares one
   `dconf::profile { 'mate_user' }` from `$mate::dconf_profile_hierarchy`
-  (`config.pp:7-9`) and iterates `$mate::dconf_hash` to emit a
-  `dconf::settings` resource per profile (`config.pp:11-16`). That is the whole
+  (`config.pp`) and iterates `$mate::dconf_hash` to emit a
+  `dconf::settings` resource per profile (`config.pp`). That is the whole
   class — no templates, no files, no execs.
 
-The hardened dconf keys set in `data/common.yaml` (`common.yaml:32-68`):
+The hardened dconf keys set in `data/common.yaml` (`common.yaml`):
 `org/mate/media-handling` `automount`/`automount-open` → `false`,
 `autorun-never` → `true`; `org/mate/SettingsDaemon/plugins/media-keys` `logout`
 → `''` (Ctrl-Alt-Del ignored); `org/mate/power-manager` `button-power` →
@@ -57,21 +57,21 @@ The hardened dconf keys set in `data/common.yaml` (`common.yaml:32-68`):
 ### Gotchas / non-obvious details
 
 - **`config.pp` sets no polkit rules.** `simp/polkit` is a declared dependency
-  and `mate-polkit` is in the package list (`common.yaml:20`), but this module
+  and `mate-polkit` is in the package list (`common.yaml`), but this module
   installs the mate-polkit *package* only — it declares **no**
   `polkit::*` resources. Any policy rules must be managed separately via
   `simp/polkit`.
 - **The dconf keys are values, not locks.** None of the `dconf_hash` entries
-  set `locked: true` (`common.yaml:32-68`), so these are hardened *defaults* a
+  set `locked: true` (`common.yaml`), so these are hardened *defaults* a
   user can still change — MATE is treated as a desktop front-end, not a locked
   appliance. If you need them enforced immutably, add locks.
 - **Everything is data, not code.** To change packages or dconf settings, edit
   `data/common.yaml` (or override in site Hiera) — the manifests carry no
   defaults. Both `mate::packages` and `mate::dconf_hash` use a **deep merge with
-  `--` knockout prefix** (`common.yaml:2-10`), so site overlays can extend or
+  `--` knockout prefix** (`common.yaml`), so site overlays can extend or
   remove individual entries without replacing the whole hash.
 - **Setting `$packages` replaces the default list** rather than merging at the
-  parameter level (`init.pp:23`) — rely on the Hiera deep-merge to add/remove
+  parameter level (`init.pp`) — rely on the Hiera deep-merge to add/remove
   packages instead of passing `$packages` directly.
 - **`Dconf::SettingsHash` and `Dconf::DBSettings` come from `simp/dconf`**, and
   `Simplib::PackageEnsure` / `simplib::install` come from `simp/simplib` — this
@@ -81,9 +81,9 @@ The hardened dconf keys set in `data/common.yaml` (`common.yaml:32-68`):
 
 The module's only lookup seam (the natural target for a lookup-path unit test):
 
-| Line | Key | `default_value` |
+| File | Key | `default_value` |
 |------|-----|-----------------|
-| `init.pp:41` | `simp_options::package_ensure` | `'installed'` |
+| `init.pp` | `simp_options::package_ensure` | `'installed'` |
 
 Keep routing package state through `simplib::lookup('simp_options::package_ensure',
 { 'default_value' => ... })` with an explicit default rather than assuming
